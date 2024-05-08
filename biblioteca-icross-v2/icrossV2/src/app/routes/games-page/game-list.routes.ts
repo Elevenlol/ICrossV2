@@ -1,15 +1,16 @@
 import { Routes } from '@angular/router';
 import { GameDetailPageComponent } from './pages/game-detail-page/game-detail-page.component';
 import { GameIdResolver } from '../../core/resolvers/game-id.resolver';
+import { GamesPageComponent } from './pages/game-page/games-page.component';
 
 export const gameListRoutes: Routes = [
   {
+    path: '',
+    component: GamesPageComponent,
+  },
+  {
     path: 'games',
-    loadComponent: () =>
-      import('./pages/game-page/games-page.component').then(
-        (m) => m.GamesPageComponent
-      ),
-      
+    component: GamesPageComponent,
   },
   {
     path: 'games/:id',
@@ -20,5 +21,5 @@ export const gameListRoutes: Routes = [
     data: {
       reuseComponent: false,
     },
-  }
+  },
 ];

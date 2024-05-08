@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { GameDetails } from '../../models/game-details';
 import { environment } from '../../../../environments/environment.development';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class GameService {
   constructor(private httlCliente: HttpClient) {}
   getGameById(id: number): Observable<GameDetails>{
