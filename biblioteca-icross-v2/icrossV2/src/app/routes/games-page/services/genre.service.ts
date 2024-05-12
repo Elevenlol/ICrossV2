@@ -24,4 +24,5 @@ export class GenreService {
         finalize(() => this.$loading.set(false))
       );
   }
+  
 }

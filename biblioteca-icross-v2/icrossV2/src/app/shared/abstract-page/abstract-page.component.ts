@@ -8,19 +8,26 @@ import {
 } from '@angular/core';
 import { GameSearchService } from '../../core/services/common/game-search.service';
 import { AutoDestroyService } from '../../core/services/utils/auto-destroy.service';
-import { switchMap, takeUntil, tap } from 'rxjs';
-import { Game } from '../../core/models/game';
+import { Subject, merge, switchMap, take, takeUntil, tap } from 'rxjs';
+import { Game, Genre } from '../../core/models/game';
 
 import { SearchFilters } from '../../core/models/search-filters';
 import { SpinnerComponent } from '../spinner/spinner.component';
 import { GameListComponent } from '../game-list/game-list.component';
 import { NgTemplateOutlet } from '@angular/common';
 import { PageParams } from '../../core/models/page-params';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { GenreService } from '../../routes/games-page/services/genre.service';
 
 @Component({
   selector: 'app-abstract-games-page',
   standalone: true,
-  imports: [GameListComponent, SpinnerComponent,NgTemplateOutlet],
+  imports: [
+    GameListComponent,
+    SpinnerComponent,
+    NgTemplateOutlet,
+    ReactiveFormsModule,
+  ],
   templateUrl: './abstract-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './abstract-page.component.scss',
@@ -28,30 +35,70 @@ import { PageParams } from '../../core/models/page-params';
 export abstract class AbstractGamesPageComponent implements OnInit {
   protected readonly gamesSearchService: GameSearchService =
     inject(GameSearchService);
-  /*   protected readonly genreService: GenreService = inject(GenreService); */
+  protected readonly genreService: GenreService = inject(GenreService);
+  private readonly fb: FormBuilder = inject(FormBuilder);
   protected readonly destroy$: AutoDestroyService = inject(AutoDestroyService);
-  /*   private readonly fb: FormBuilder = inject(FormBuilder); */
-
+  $games: Signal<Game[]> = this.gamesSearchService.$games;
   $loading: Signal<boolean> = this.gamesSearchService.$loading;
-  $games: WritableSignal<Game[]> = this.gamesSearchService.$games;
+  $genres: Signal<Genre[]> = this.genreService.$genres;
+
+  onFiltersChange$: Subject<SearchFilters> = new Subject<SearchFilters>();
+  orderPreference: string = 'Relevance';
 
   searchFilters: SearchFilters = {
     search: '',
     page_size: 50,
   };
-  params:PageParams={
-    title:''
-  }
+  params: PageParams = {
+    title: 'Indica un titulo',
+    showFilters: true,
+  };
+  form: FormGroup;
   constructor() {}
   ngOnInit(): void {
-    this.gamesSearchService.queryString$
+    if (this.params.showFilters) {
+      this.initForm();
+    }
+    this.getGenres();
+    this.subscribeToFilterChanges();
+    this.subscribeToQueryChanges();
+  }
+  initForm(): void {
+    this.form = this.fb.group({
+      order: [],
+      genres: [],
+    });
+    this.subscribeToFormChanges();
+  }
+
+  //suscripcion a cambios en filtros tanto input como controles
+  subscribeToFilterChanges(): void {
+    this.onFiltersChange$
       .pipe(
-        tap((query: string) => (this.searchFilters.search = query)),
-        switchMap((title: string) =>
-          this.gamesSearchService.searchGames2(this.searchFilters)
+        switchMap((filters: SearchFilters) =>
+          this.gamesSearchService.searchGames2(filters)
         ),
         takeUntil(this.destroy$)
       )
       .subscribe((data) => this.gamesSearchService.setGames(data.results));
   }
+
+  //subscripcion a los cambios del input buscador
+  subscribeToQueryChanges(): void {
+    this.gamesSearchService.queryString$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((query: string) => {
+        this.onFiltersChange$.next({ ...this.searchFilters, search: query });
+      });
+  }
+
+  //Subscripcion a los cambios del formulario
+  subscribeToFormChanges(): void {
+    this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      const ordering = this.form.controls['order'].value;
+      const genres = this.form.controls['genres'].value;
+      this.onFiltersChange$.next({ ...this.searchFilters, ordering, genres });
+    });
+  }
+  getGenres(): void {}
 }
