@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
   OnInit,
   Signal,
   WritableSignal,
@@ -18,6 +19,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import { PageParams } from '../../core/models/page-params';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { GenreService } from '../../routes/games-page/services/genre.service';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @Component({
   selector: 'app-abstract-games-page',
@@ -27,12 +29,13 @@ import { GenreService } from '../../routes/games-page/services/genre.service';
     SpinnerComponent,
     NgTemplateOutlet,
     ReactiveFormsModule,
+    InfiniteScrollModule,
   ],
   templateUrl: './abstract-page.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './abstract-page.component.scss',
 })
-export abstract class AbstractGamesPageComponent implements OnInit {
+export abstract class AbstractGamesPageComponent implements OnInit, OnDestroy {
   protected readonly gamesSearchService: GameSearchService =
     inject(GameSearchService);
   protected readonly genreService: GenreService = inject(GenreService);
@@ -65,8 +68,8 @@ export abstract class AbstractGamesPageComponent implements OnInit {
   }
   initForm(): void {
     this.form = this.fb.group({
-      order: [],
-      genres: [],
+      order: ['-relevance'],
+      genre: [''],
     });
     this.subscribeToFormChanges();
   }
@@ -80,10 +83,13 @@ export abstract class AbstractGamesPageComponent implements OnInit {
         ),
         takeUntil(this.destroy$)
       )
-      .subscribe((data) => this.gamesSearchService.setGames(data.results));
+      .subscribe((data) => {
+        this.gamesSearchService.setNextUrl(data.next);
+        this.gamesSearchService.setGames(data.results);
+      });
   }
 
-  //subscripcion a los cambios del input buscador
+  //suscripcion a los cambios del input buscador
   subscribeToQueryChanges(): void {
     this.gamesSearchService.queryString$
       .pipe(takeUntil(this.destroy$))
@@ -96,9 +102,23 @@ export abstract class AbstractGamesPageComponent implements OnInit {
   subscribeToFormChanges(): void {
     this.form.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
       const ordering = this.form.controls['order'].value;
-      const genres = this.form.controls['genres'].value;
+      const genres = this.form.controls['genre'].value;
       this.onFiltersChange$.next({ ...this.searchFilters, ordering, genres });
     });
   }
-  getGenres(): void {}
+  getGenres(): void {
+    this.genreService
+      .getGenres()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((genres: Genre[]) => {
+        this.genreService.setGenres(genres);
+      });
+  }
+
+  onScroll(): void {
+    this.onFiltersChange$.next(this.searchFilters);
+  }
+  ngOnDestroy(): void {
+    this.gamesSearchService.setNextUrl('');
+  }
 }

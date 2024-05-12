@@ -5,6 +5,7 @@ import { routes } from './app.routes';
 import {
   HttpClientModule,
   provideHttpClient,
+  withFetch,
   withInterceptors,
 } from '@angular/common/http';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
@@ -13,6 +14,6 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, withViewTransitions()),
     HttpClientModule,
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(withFetch(),withInterceptors([authInterceptor])),
   ],
 };

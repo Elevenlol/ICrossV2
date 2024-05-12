@@ -1,7 +1,7 @@
 <div class="w-[300px] h-[290px] bg-transparent cursor-pointer group perspective ">
     <div class="relative preserve-3d group-hover:my-rotate-y-180 w-full h-full duration-1000">
         <div class="absolute backface-hidden border-2 w-full h-full rounded-lg">
-            <img [src]="game.background_image" alt="{{game.name}}" class=" w-full h-full rounded-lg" />
+            <img [ngSrc]="game.background_image" fill="cover" alt="{{game.name}}" class=" w-full h-full rounded-lg" />
         </div>
         <div class="absolute my-rotate-y-180 backface-hidden w-full h-full bg-gray-100 overflow-hidden rounded-lg">
             <div class="text-center flex flex-col items-center justify-center h-full text-gray-800 px-2 pb-24">

@@ -7,6 +7,7 @@ import { GameListComponent } from '../../../../shared/game-list/game-list.compon
 import { NgTemplateOutlet } from '@angular/common';
 import { PageParams } from '../../../../core/models/page-params';
 import { ReactiveFormsModule } from '@angular/forms';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @Component({
   selector: 'app-new-games-page',
@@ -18,6 +19,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     SpinnerComponent,
     NgTemplateOutlet,
     ReactiveFormsModule,
+    InfiniteScrollModule
   ],
   templateUrl: '../../../../shared/abstract-page/abstract-page.component.html',
 })

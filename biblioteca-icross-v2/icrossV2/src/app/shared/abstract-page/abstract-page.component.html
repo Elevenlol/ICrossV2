@@ -1,4 +1,5 @@
-<div class="flex flex-col gap-10">
+<div class="flex flex-col gap-10" infinite-scroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"
+    (scrolled)="onScroll()">
     <div class="flex flex-col gap-10">
         <h1 class="text-7xl text-white dark:text-white font-bold">
             {{params.title}}
@@ -8,10 +9,10 @@
     @if (params.showFilters) {
     <form [formGroup]="form" class="flex gap-5">
         <div>
-            <label for="countries" class="block mb-2 text-sm font-medium text-white">Order By:</label>
+            <label for="small" class="block mb-2 text-sm font-medium text-white">Order by</label>
             <select id="small" class="block w-full p-2 text-sm text-white rounded-lg bg-[#202020] outline-none"
                 formControlName="order">
-                <option selected value="-relevance">Relevance</option>
+                <option value="-relevance" selected>Relevance</option>
                 <option value="-created">Date added</option>
                 <option value="name">Name</option>
                 <option value="-released">Release date</option>
@@ -20,20 +21,19 @@
             </select>
         </div>
         <div>
-            <label for="countries" class="block mb-2 text-sm font-medium text-white">Genres:</label>
+            <label for="small" class="block mb-2 text-sm font-medium text-white">Genres:</label>
             <select id="small" class="block w-full p-2 text-sm text-white rounded-lg bg-[#202020] outline-none"
                 formControlName="genre">
-                <option value="US">United States</option>
-                <option value="CA">Canada</option>
-                <option value="FR">France</option>
-                <option value="DE">Germany</option>
+                <option value="">All</option>
+                @for (genre of $genres(); track genre.id) {
+                <option [value]="genre.id">{{genre.name}}</option>
+                }
             </select>
         </div>
     </form>
     }
-    @if (!$loading()) {
     <app-game-list [games]="$games()"></app-game-list>
-    }@else {
+    @if (!$loading() ) {
     <div class="flex items-center justify-center">
         <app-spinner></app-spinner>
     </div>

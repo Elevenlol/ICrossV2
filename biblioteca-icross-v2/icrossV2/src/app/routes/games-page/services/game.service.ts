@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { GameDetails } from '../../../core/models/game-details';
 import { environment } from '../../../../environments/environment';
 
+
 @Injectable({providedIn: 'root'})
 export class GameService  {
   constructor(private httpClient: HttpClient) {}
@@ -15,7 +16,7 @@ export class GameService  {
   }
   getGameById2(id: number): Observable<GameDetails> {
     return this.httpClient.get<GameDetails>(
-      `${environment.ALTERNATIVE_API_URL}games/${id}`
+      `${environment.BASE_API_URL}games/${id}`
     );
   }
 }
