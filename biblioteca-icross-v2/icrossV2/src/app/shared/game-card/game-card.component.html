@@ -1,33 +1,27 @@
-
-<div
-  class="flex flex-col group gap-5 rounded-md h-full hover:scale-110 transition-transform bg-[#202020] text-white"
->
-  <img
-    class="w-full h-48"
-    [src]="game.background_image"
-    alt="{{ game.name }}"
-  />
-  <div class="p-3 group-hover: flex flex-col gap-5">
-    <a
-      [routerLink]="['/games', game.id]"
-      class="text-2xl font-bold text-balance hover:text-[#636363] transition-colors"
-      >{{ game.name }}</a
-    >
-    <div class="flex-col gap-5 hidden group-hover:flex">
-      <div class="flex justify-between">
-        <span class="text-md text-slate-400">Genres</span>
-        <div class="flex gap-2">
-          @for (genre of game.genres; track genre.id) {
-          <span class="text-md text-white">{{ genre.name }}</span>
-          }
+<div class="w-[370px] h-[420px] bg-transparent cursor-pointer group perspective">
+    <div class="relative preserve-3d group-hover:my-rotate-y-180 w-full h-full duration-1000">
+        <div class="absolute backface-hidden border-2 w-full h-full">
+            <img [src]="game.background_image" alt="{{game.name}}" class=" w-full h-full" />
         </div>
-      </div>
-      <div class="flex justify-between">
-        <span class="text-md text-slate-500">Released: </span>
-        <span class="text-md text-white">{{
-          game.released | date : "dd/MM/yyyy"
-        }}</span>
-      </div>
+        <div class="absolute my-rotate-y-180 backface-hidden w-full h-full bg-gray-100 overflow-hidden">
+            <div class="text-center flex flex-col items-center justify-center h-full text-gray-800 px-2 pb-24">
+                <h1 class="text-3xl font-semibold">{{game.name}}</h1>
+                <p class="my-2">{{game.rating}}</p>
+                <div class="flex flex-wrap justify-center gap-2">
+                    @for (genre of game.genres; track genre.id) {
+                    <span class="text-md text-slate-500">Gender: </span>
+                    <span class="text-md text-black">{{genre.name}}</span>
+                    }
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-md text-slate-500">Released: </span>
+                    <span class="text-md text-black">{{game.released | date: 'dd/MM/yyyy'}}</span>
+                </div>
+                <a [routerLink]="[ '/games', game.id]"
+                    class="text-white bg-teal-500 px-6 py-2 font-semibold  rounded-full absolute -bottom-20 delay-500 duration-1000 group-hover:bottom-20 scale-0 group-hover:scale-125">
+                    See More
+                </a>
+            </div>
+        </div>
     </div>
-  </div>
 </div>

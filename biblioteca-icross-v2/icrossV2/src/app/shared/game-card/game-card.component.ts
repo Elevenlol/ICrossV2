@@ -6,7 +6,7 @@ import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-game-card',
   standalone: true,
-  imports: [DatePipe,RouterLink],
+  imports: [DatePipe, RouterLink],
   templateUrl: './game-card.component.html',
   styleUrl: './game-card.component.scss',
 })

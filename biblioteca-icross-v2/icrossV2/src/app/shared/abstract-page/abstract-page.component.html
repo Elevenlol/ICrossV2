@@ -1,0 +1,15 @@
+<div class="flex flex-col gap-10">
+    <div class="flex flex-col gap-10">
+        <h1 class="text-7xl text-white font-bold">
+            {{params.title}}
+        </h1>
+        <span class="text-md text-white"> {{params.subtitle}} </span>
+    </div>
+    @if (!$loading()) {
+    <app-game-list [games]="$games()"></app-game-list>
+    }@else {
+    <div class="flex items-center justify-center">
+        <app-spinner></app-spinner>
+    </div>
+    }
+</div>
