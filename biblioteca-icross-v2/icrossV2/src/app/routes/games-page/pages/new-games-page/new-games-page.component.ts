@@ -24,15 +24,15 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
   templateUrl: '../../../../shared/abstract-page/abstract-page.component.html',
 })
 export class NewGamesPageComponent extends AbstractGamesPageComponent {
-  override searchFilters: SearchFilters = {
-    ...this.searchFilters,
+  override defaultSearchFilters: SearchFilters = {
+    ...this.defaultSearchFilters,
     ordering: '-released',
     metacritic: '80,100',
   };
   override params: PageParams = {
     title: 'Nuevos y tendencia',
     subtitle: 'Lo más popular',
-    showFilters: false,
+    showFilters: true,
   };
   constructor() {
     super();

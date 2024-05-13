@@ -24,8 +24,9 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
   templateUrl: '../../../../shared/abstract-page/abstract-page.component.html',
 })
 export class GamesPageComponent extends AbstractGamesPageComponent {
-  override searchFilters: SearchFilters = {
-    ...this.searchFilters,
+  override defaultSearchFilters: SearchFilters = {
+    ...this.defaultSearchFilters,
+
   };
   override params: PageParams = {
     ...this.params,
