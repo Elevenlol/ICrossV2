@@ -32,7 +32,7 @@ export class NewGamesPageComponent extends AbstractGamesPageComponent {
   override params: PageParams = {
     title: 'Nuevos y tendencia',
     subtitle: 'Lo más popular',
-    showFilters: true,
+    showFilters: false,
   };
   constructor() {
     super();
