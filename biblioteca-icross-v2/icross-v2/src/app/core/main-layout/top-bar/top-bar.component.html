@@ -1,0 +1,28 @@
+<nav class="w-full border-gray-200 top-0 left-10 bg-gray-900 rounded-3xl">
+    <div class="flex items-center justify-between p-4 ml-5">
+        <a [routerLink]="['']" class="flex space-x-3 rtl:space-x-reverse">
+            <img src="assets/logo.png" class="h-8" alt="Logo de la pagina" />
+            <span class="self-center text-2xl font-semibold whitespace-nowrap text-white">IcrossGames </span>
+        </a>
+        <div class="flex flex-row flex-grow md:order-2">
+            <input type="text" placeholder="Buscar..." class="bg-gray-800 text-white rounded-full px-4 py-2 w-11/12"
+                [(ngModel)]="query" (ngModelChange)="queryChange$.next($event)">
+            <div class="flex flex-row">
+                @if (!authService.currentUserSig()) {
+                <button type="button" [routerLink]="['auth']"
+                    class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 
+                    focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-4 py-2 text-center">
+                    Login</button>
+                }
+                @if (authService.currentUserSig()) {
+                <button type="button" (click)="logOut()"
+                    class="text-white bg-gradient-to-br from-orange-600 to-green-500 hover:bg-gradient-to-bl focus:ring-4 
+                        focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-4 py-2 text-center ">
+                    LogOut</button>
+                }
+            </div>
+        </div>
+
+    </div>
+
+</nav>

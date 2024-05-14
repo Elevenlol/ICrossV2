@@ -1,0 +1,45 @@
+<nav class="text-white sticky top-0 py-5">
+   <ul class="flex flex-col gap-5">
+      @if (authService.currentUserSig()) {
+      <li>
+         <a [routerLink]="['/favoriteGames']" routerLinkActive="underline underline-offset-8"
+            [routerLinkActiveOptions]="{ exact: true }" title="Home"
+            class="text-2xl block font-bold hover:text-[#636363] transition-colors">{{authService.currentUserSig()?.username?.toUpperCase()}}</a>
+      </li>
+      }
+      <li>
+         <a [routerLink]="['/']" routerLinkActive="underline underline-offset-8"
+            [routerLinkActiveOptions]="{ exact: true }" title="Home"
+            class="text-2xl block font-bold hover:text-[#636363] transition-colors">Home</a>
+      </li>
+      <li>
+         <a title="Home" class="text-2xl block font-bold hover:text-[#636363] transition-colors"
+            [routerLink]="['/games']" routerLinkActive="underline underline-offset-8">All Games</a>
+      </li>
+      <li class="flex flex-col gap-3 text-2xl font-bold">
+         <a class="text-2xl block font-bold hover:text-[#636363] transition-colors" [routerLink]="['/genres']"
+            routerLinkActive="underline underline-offset-8" [routerLinkActiveOptions]="{ exact: true }">Genres</a>
+         <ul class="flex flex-col gap-2">
+            @for(genre of $genres().slice(0, 5); track genre.id){
+            <li>
+               <a [routerLink]="['/genres', genre.name]" routerLinkActive="underline underline-offset-8"
+                  class="text-lg font-normal flex items-center gap-2 group">
+                  <span
+                     class="p-2 bg-[#202020] text-white rounded-xl group-hover:bg-white group-hover:text-[#202020] transition-colors duration-300">
+                     <svg xmlns="http://www.w3.org/2000/svg" class="size-4" width="24" height="24" viewBox="0 0 24 24"
+                        stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M20 4v5l-9 7l-4 4l-3 -3l4 -4l7 -9z" />
+                        <path d="M6.5 11.5l6 6" />
+                     </svg>
+                  </span>
+                  <span class="text-sm">{{ genre.name }}</span>
+               </a>
+            </li>
+            }
+         </ul>
+      </li>
+
+   </ul>
+</nav>
