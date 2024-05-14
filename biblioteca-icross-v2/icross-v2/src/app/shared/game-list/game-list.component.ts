@@ -1,13 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Game } from '../../core/models/game';
 import { GameCardComponent } from '../game-card/game-card.component';
-import { Observable, map } from 'rxjs';
-import { CrudOperationsService } from '../../core/services/common/crud-operations.service';
 
 @Component({
   selector: 'app-game-list',
@@ -19,4 +12,5 @@ import { CrudOperationsService } from '../../core/services/common/crud-operation
 })
 export class GameListComponent {
   @Input({ required: true }) games: Game[] = [];
+  onScroll() {}
 }

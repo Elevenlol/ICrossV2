@@ -33,6 +33,7 @@ export class CrudOperationsService {
     const gameDoc = doc(gameCol, `${game.id}`);
     setDoc(gameDoc, game);
   }
+
   //devuelve un observable con array de juegos
   getGames(): Observable<Game[]> {
     return collectionData(this.colec, { idField: 'id' }) as Observable<Game[]>;
@@ -43,6 +44,7 @@ export class CrudOperationsService {
     const gameCollection = doc(this.firestore, `${this.username}/${game.id}`);
     return deleteDoc(gameCollection);
   }
+  
   checkFac(idGame: number): Observable<boolean> {
     // Obtener los juegos del usuario (suponiendo que getGames() devuelve un observable)
     return this.getGames().pipe(
