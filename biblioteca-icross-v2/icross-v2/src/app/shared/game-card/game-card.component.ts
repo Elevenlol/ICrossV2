@@ -23,10 +23,8 @@ import { BADNAME } from 'dns';
 })
 export class GameCardComponent implements OnInit {
   @Input({ required: true }) game: Game;
-  constructor(
-    private authService: AuthService,
-    private crudOperator: CrudOperationsService
-  ) {}
+  authService: AuthService = inject(AuthService);
+  constructor(private crudOperator: CrudOperationsService) {}
 
   favoriteGame(game: Game): void {
     this.crudOperator.addGame(game);

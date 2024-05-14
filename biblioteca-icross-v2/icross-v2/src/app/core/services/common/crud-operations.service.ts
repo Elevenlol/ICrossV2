@@ -1,15 +1,11 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, Signal, inject, signal } from '@angular/core';
 import {
   Firestore,
-  addDoc,
   collection,
   deleteDoc,
   doc,
   collectionData,
-  documentId,
   setDoc,
-  getDoc,
-  getFirestore,
 } from '@angular/fire/firestore';
 import { Game, SearchResult } from '../../models/game';
 import { AuthService } from './auth.service';
@@ -23,7 +19,7 @@ export class CrudOperationsService {
   protected readonly authService: AuthService = inject(AuthService);
   username = this.authService.currentUserSig()?.username;
   colec = collection(this.firestore, `${this.username}/games/favoritos`);
-
+  $games: Signal<Game[]> = signal([]);
   constructor() {}
 
   //añade un juego a la coleccion del usuario
@@ -40,11 +36,6 @@ export class CrudOperationsService {
   }
 
 
-  removeGame(game: Game) {
-    const gameCollection = doc(this.firestore, `${this.username}/${game.id}`);
-    return deleteDoc(gameCollection);
-  }
-  
   checkFac(idGame: number): Observable<boolean> {
     // Obtener los juegos del usuario (suponiendo que getGames() devuelve un observable)
     return this.getGames().pipe(
@@ -54,6 +45,7 @@ export class CrudOperationsService {
       })
     );
   }
+
   deleteGameById(gameId: number): Promise<void> {
     const gameDocRef = doc(
       this.firestore,

@@ -9,8 +9,6 @@ import { SearchFilters } from '../../models/search-filters';
   providedIn: 'root',
 })
 export class GameSearchService {
-  //$games: WritableSignal<Game[]> = signal([]);
-
   public $loading: WritableSignal<boolean> = signal(false);
   private queryString: Subject<string> = new Subject<string>();
   public queryString$ = this.queryString.asObservable();

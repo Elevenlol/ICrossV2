@@ -17,6 +17,7 @@
                     <span class="text-md text-slate-500">Released: </span>
                     <span class="text-md text-black">{{game.released | date: 'dd/MM/yyyy'}}</span>
                 </div>
+                @if (this.authService.currentUserSig()!==null) {
                 <div class="flex flex-row">
                     <div class="bg-red-800 p-1 rounded-md">
                         <a (click)="deleteGameFromFavorite(game.id)">Borrar</a>
@@ -25,6 +26,8 @@
                         <a (click)="favoriteGame(game)">Añadir</a>
                     </div>
                 </div>
+                }
+
                 <a [routerLink]="[ '/games', game.id]"
                     class="text-white bg-teal-500 px-6 py-2 font-semibold  rounded-full absolute -bottom-20 delay-500 duration-1000 group-hover:bottom-4 scale-0 group-hover:scale-125">
                     See More
