@@ -36,15 +36,13 @@ export class CrudOperationsService {
   }
 
 
-  checkFac(idGame: number): Observable<boolean> {
-    // Obtener los juegos del usuario (suponiendo que getGames() devuelve un observable)
+/*   checkFac(idGame: number): Observable<boolean> {
     return this.getGames().pipe(
       switchMap((games) => {
-        // Verificar si el juego está presente en la lista de juegos
         return of(games.some((game) => game.id === idGame));
       })
     );
-  }
+  } */
 
   deleteGameById(gameId: number): Promise<void> {
     const gameDocRef = doc(
@@ -54,8 +52,4 @@ export class CrudOperationsService {
     return deleteDoc(gameDocRef);
   }
 
-  /* 
-  countGames(games: Game[]) {
-    return count(games.cou);
-  } */
 }

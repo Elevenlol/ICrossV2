@@ -1,22 +1,56 @@
 <article class="flex flex-col gap-5">
     <div [style.background-image]="'url(' + gameDetails.background_image + ')'" class="banner">
-        <div class="flex relative flex-col gap-5 p-20 w-fit bg-black bg-opacity-60" >
+        <div class="flex relative flex-col gap-5 p-20 w-fit bg-black bg-opacity-60">
             <h1 class="text-6xl text-white font-bold text-balance">
                 {{ gameDetails.name }}
             </h1>
             <div class="flex gap-5 text-white ">
                 <div class="flex flex-col">
-                    <span>Exceptional</span>
-                    <span>174 ratings</span>
+                    <span>Metacritic Score</span>
+                    <span>{{ gameDetails.metacritic }}</span>
                 </div>
                 <div class="flex flex-col">
-                    <span>Exceptional</span>
-                    <span>174 ratings</span>
+                    <span>Released</span>
+                    <span>{{ gameDetails.released }}</span>
                 </div>
                 <div class="flex flex-col">
-                    <span>Exceptional</span>
-                    <span>174 ratings</span>
+                    <span>ESRB Rating</span>
+                    <span>{{ gameDetails.esrb_rating.name }}</span>
+                    <span>{{gameDetails.esrb_rating.id}}</span>
                 </div>
+                <div class="flex flex-col">
+                    <span>Playtime</span>
+                    <span>{{ gameDetails.playtime }} hours</span>
+                </div>
+            </div>
+            <div class="text-white">
+                <h2 class="text-xl font-bold">Description</h2>
+                {{ stripHtmlTags(gameDetails.description) }}
+            </div>
+            <div class="text-white">
+                <h2 class="text-xl font-bold">Ratings</h2>
+                <p>Top Rating: {{ gameDetails.rating_top }}</p>
+            </div>
+            <div class="text-white">
+                <h2 class="text-xl font-bold">Platforms</h2>
+                <ul>
+                    <li *ngFor="let platformInfo of gameDetails.platforms">
+                        <span>{{ platformInfo.platform.name }}</span>
+                        <span>Released At : {{ platformInfo.released_at }}</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="text-white">
+                <h2 class="text-xl font-bold">Additional Information</h2>
+                <p>Screenshots: {{ gameDetails.screenshots_count }}</p>
+                <p>Movies: {{ gameDetails.movies_count }}</p>
+
+            </div>
+            <div class="text-white">
+                <h2 class="text-xl font-bold">External Links</h2>
+                <a href="{{ gameDetails.website }}" target="_blank">Official Website</a>
+                <a href="{{ gameDetails.reddit_url }}" target="_blank">Reddit</a>
+
             </div>
         </div>
     </div>
