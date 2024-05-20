@@ -19,11 +19,11 @@
                 </div>
                 @if (this.authService.currentUserSig()!==null) {
                 <div class="flex flex-row">
-                    <div class="bg-red-800 p-1 rounded-md">
-                        <a (click)="deleteGameFromFavorite(game.id)">Borrar</a>
+                    <div class="bg-red-800 p-1 m-2.5 rounded-md text-white hover:bg-red-900">
+                        <a (click)="deleteGameFromFavorite(game.id)">Delete fav</a>
                     </div>
-                    <div class="bg-green-800 p-1 rounded-md">
-                        <a (click)="favoriteGame(game)">Añadir</a>
+                    <div class="bg-blue-700 p-1 m-2.5 rounded-md  text-white hover:bg-blue-500">
+                        <a (click)="favoriteGame(game)">Add to fav</a>
                     </div>
                 </div>
                 }
